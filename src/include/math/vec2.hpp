@@ -22,11 +22,12 @@ namespace math
     template<typename _type>
     class vec2
     {
-        private:
-            _type _gl_a[2];
-
         public:
-            _type x, y;
+            union
+            {
+                _type _gl_a[2];
+                struct { _type x, y; };
+            };
 
             vec2() {};
             vec2(_type _x, _type _y)
@@ -45,13 +46,13 @@ namespace math
             inline vec2<_type> operator*(vec2<_type> &other) { return vec2<_type>(x * other.x, y * other.y); }
             inline vec2<_type> operator/(vec2<_type> &other) { return vec2<_type>(x / other.x, y / other.y); }
 
-            inline _type operator[](int i)
+            inline _type &operator[](unsigned int i)
             {
-                if(i < 0 || i >= 2)
-                    return 0;
+                return _gl_a[i];
+            }
 
-                _gl_a[0] = x;
-                _gl_a[1] = y;
+            inline _type const &operator[](unsigned int i) const
+            {
                 return _gl_a[i];
             }
 

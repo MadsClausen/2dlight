@@ -22,9 +22,16 @@ namespace gfx
 {
     class shader_t
     {
+        enum
+        {
+            UNIFORM_MVP,
+
+            NUM_UNIFORMS
+        };
+
         private:
             char *_vsPath, *_fsPath, *_gsPath, compiled;
-            GLuint _id;
+            GLuint _id, _uniforms[NUM_UNIFORMS];
 
         public:
             /************************
@@ -35,6 +42,8 @@ namespace gfx
                 _vsPath = (char*) "";
                 _fsPath = (char*) "";
                 _id = compiled = 0;
+
+                prepare();
             }
 
             /****************************************************
@@ -48,12 +57,21 @@ namespace gfx
                 _vsPath = (char *) v;
                 _fsPath = (char *) f;
                 _id = compiled = 0;
+
+                prepare();
+            }
+
+            ~shader_t()
+            {
+                glDeleteProgram(_id);
             }
 
             void prepare()
             {
                 _id = glCreateProgram();
             }
+
+            unsigned int add_uniform(const char *name);
 
 
             /***********************************************************

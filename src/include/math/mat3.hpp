@@ -60,7 +60,16 @@ namespace math
                 _mat[2] = 0;        _mat[5] = 0;       _mat[8] = scalar;
             }
 
-            inline _type &operator[](int i)               { return _mat[i]; }
+            inline _type &operator[](unsigned int i)
+            {
+                return _mat[i];
+            }
+
+            inline _type const &operator[](unsigned int i) const
+            {
+                return _mat[i];
+            }
+
             inline _type &operator()(int column, int row) { return _mat[3 * column + row]; }
 
             inline mat3<_type> operator+(_type other)

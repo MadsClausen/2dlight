@@ -64,6 +64,7 @@ namespace gfx
         // Link the program
         glAttachShader(_id, vertShaderID);
         glAttachShader(_id, fragShaderID);
+
         glLinkProgram(_id);
 
         // Check the program
@@ -123,6 +124,7 @@ namespace gfx
         // Link the program
         glAttachShader(_id, vertShaderID);
         glAttachShader(_id, fragShaderID);
+
         glLinkProgram(_id);
 
         // Check the program

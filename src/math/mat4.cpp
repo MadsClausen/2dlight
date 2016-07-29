@@ -10,17 +10,43 @@
 
 #include "math/mat4.hpp"
 
+#include <stdio.h>
+
 namespace math
 {
-    mat4<float> rotation_mat4(float a, vec3<float> axis)
+    mat4<float> translate_mat4(vec3<float> axis)
     {
-        a *= DEGTORAD;
-        double cosAx = cos(a * axis.x);
-        double sinAx = sin(a * axis.x);
-        double cosAy = cos(a * axis.y);
-        double sinAy = sin(a * axis.y);
-        double cosAz = cos(a * axis.z);
-        double sinAz = sin(a * axis.z);
+        return mat4<float>( 1, 0, 0, axis.x,
+                            0, 1, 0, axis.y,
+                            0, 0, 1, axis.z,
+                            0, 0, 0, 1);
+    }
+
+    mat4<float> scale_mat4(vec3<float> axis)
+    {
+        // printf("scale: (%f, %f, %f)\n", axis.x, axis.y, axis.z);
+
+        mat4<float> _s_mat( axis.x, 0, 0, 0,
+                            0, axis.y, 0, 0,
+                            0, 0, axis.z, 0,
+                            0, 0,      0, 1.0f);
+
+        // print_mat4f(_s_mat);
+        return _s_mat;
+    }
+
+    mat4<float> rotation_mat4(vec3<float> rotation)
+    {
+        float rot_x = rotation.x * DEGTORAD;
+        float rot_y = rotation.y * DEGTORAD;
+        float rot_z = rotation.z * DEGTORAD;
+
+        double cosAx = cos(rot_x);
+        double sinAx = sin(rot_x);
+        double cosAy = cos(rot_y);
+        double sinAy = sin(rot_y);
+        double cosAz = cos(rot_z);
+        double sinAz = sin(rot_z);
 
         mat4<float> rotX(1,     0,     0, 0,
                          0, cosAx,-sinAx, 0,
@@ -77,5 +103,10 @@ namespace math
         aux[14] = -pos.z;
 
         return view * aux;
+    }
+
+    void print_mat4f(mat4f mat)
+    {
+        printf("[%f\t%f\t%f\t%f]\n[%f\t%f\t%f\t%f]\n[%f\t%f\t%f\t%f]\n[%f\t%f\t%f\t%f]\n", mat[0], mat[1], mat[2], mat[3], mat[4], mat[5], mat[6], mat[7], mat[8], mat[9], mat[10], mat[11], mat[12], mat[13], mat[14], mat[15]);
     }
 };

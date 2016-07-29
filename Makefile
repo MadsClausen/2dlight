@@ -8,7 +8,9 @@ LFLAGS 	= -o $(BIN) -lstdc++ -lm -lSDL2 -lGL -lGLEW
 HEADERS = \
 ./src/include/gfx.hpp \
 ./src/include/shader.hpp \
-./src/include/object.hpp \
+./src/include/mesh.hpp \
+./src/include/scene.hpp \
+./src/include/light.hpp \
 ./src/include/math/math.hpp \
 ./src/include/math/vec2.hpp \
 ./src/include/math/vec3.hpp \
@@ -16,17 +18,23 @@ HEADERS = \
 ./src/include/math/mat2.hpp \
 ./src/include/math/mat3.hpp \
 ./src/include/math/mat4.hpp \
-./src/include/math/poly2d.hpp
+./src/include/math/poly2d.hpp \
+./src/include/types.hpp \
+./src/include/_stb_image.h
 
 OBJS 	= \
 ./obj/main.o \
 ./obj/sdl_handler.o \
 ./obj/gl_handler.o \
 ./obj/shader.o \
-./obj/object.o \
+./obj/mesh.o \
+./obj/scene.o \
+./obj/light.o \
+./obj/texture.o \
 ./obj/mat3.o \
 ./obj/mat4.o \
-./obj/poly2d.o
+./obj/poly2d.o \
+./obj/_stb_image.o 
 
 default: prepare $(OBJS)
 	$(LINKER) $(OBJS) $(LFLAGS)
@@ -49,7 +57,16 @@ obj/gl_handler.o: src/gl_handler.cpp $(HEADERS)
 obj/shader.o: src/shader.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
-obj/object.o: src/object.cpp $(HEADERS)
+obj/mesh.o: src/mesh.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/scene.o: src/scene.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/light.o: src/light.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/texture.o: src/texture.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/mat3.o: src/math/mat3.cpp $(HEADERS)
@@ -59,4 +76,7 @@ obj/mat4.o: src/math/mat4.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/poly2d.o: src/math/poly2d.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/_stb_image.o: src/_stb_image.c $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@

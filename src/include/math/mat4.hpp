@@ -84,7 +84,16 @@ namespace math
                 _mat[3] = 0;        _mat[7] = 0;          _mat[11] = 0;        _mat[15] = 0;
             }
 
-            inline _type &operator[](int i)               { return _mat[i]; }
+            inline _type &operator[](unsigned int i)
+            {
+                return _mat[i];
+            }
+
+            inline _type const &operator[](unsigned int i) const
+            {
+                return _mat[i];
+            }
+
             inline _type &operator()(int column, int row) { return _mat[4 * column + row]; }
 
             inline mat4<_type> operator+(_type other)
@@ -213,9 +222,9 @@ namespace math
 
             inline vec3<_type> vec_multiply(vec3<_type> other)
             {
-                return vec3<_type>(_mat[0] * other.x + _mat[3] * other.y + _mat[6] * other.z,
-                                   _mat[1] * other.x + _mat[4] * other.y + _mat[7] * other.z,
-                                   _mat[2] * other.x + _mat[4] * other.y + _mat[8] * other.z);
+                return vec3<_type>(_mat[0] * other.x + _mat[4] * other.y + _mat[8] * other.z,
+                                   _mat[1] * other.x + _mat[5] * other.y + _mat[9] * other.z,
+                                   _mat[3] * other.x + _mat[6] * other.y + _mat[10] * other.z);
             }
 
             inline vec3<_type> vec_divide(vec3<_type> other)
@@ -233,6 +242,9 @@ namespace math
     typedef mat4<short>             mat4s;
     typedef mat4<unsigned short>    mat4us;
 
+    mat4<float> translate_mat4(vec3<float> axis);
+    mat4<float> scale_mat4(vec3<float> axis);
+
     /**************************************************************
      * Generate a 4*4 rotation matrix.
      *
@@ -241,7 +253,7 @@ namespace math
      *
      * @return The rotation matrix.
      **************************************************************/
-    mat4<float> rotation_mat4(float a, vec3<float> axis);
+    mat4<float> rotation_mat4(vec3<float> rotation);
 
 
     /************************************************
@@ -266,6 +278,8 @@ namespace math
      * @return The view matrix.
      *************************************************/
     mat4<float> look_at(vec3<float> pos, vec3<float> dir);
+
+    void print_mat4f(mat4f mat);
 };
 
 #endif // MAT4_INCLUDED

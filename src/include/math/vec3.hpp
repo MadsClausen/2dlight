@@ -22,10 +22,14 @@ namespace math
     class vec3
     {
         private:
-            _type _gl_a[3];
+            
 
         public:
-            _type x, y, z;
+            union
+            {
+                _type _gl_a[3];
+                struct { _type x, y, z; };
+            };
 
             vec3() {};
             vec3(_type _x, _type _y, _type _z)
@@ -59,14 +63,13 @@ namespace math
             inline vec3<_type> operator*(vec3<_type> &other) { return vec3<_type>(x * other.x, y * other.y, z * other.z); }
             inline vec3<_type> operator/(vec3<_type> &other) { return vec3<_type>(x / other.x, y / other.y, z / other.z); }
 
-            inline _type operator[](int i)
+            inline _type &operator[](unsigned int i)
             {
-                if(i < 0 || i >= 3)
-                    return 0;
+                return _gl_a[i];
+            }
 
-                _gl_a[0] = x;
-                _gl_a[1] = y;
-                _gl_a[2] = z;
+            inline _type const &operator[](unsigned int i) const
+            {
                 return _gl_a[i];
             }
 

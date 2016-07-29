@@ -20,36 +20,34 @@ namespace math
     template<typename _type>
     class vec4
     {
+        private:
+            _type _gl_a[4];
+
         public:
-            union
-            {
-                _type _gl_a[4];
-                struct { _type x, y, z, w; };
-            };
 
             vec4() {};
             vec4(_type _x, _type _y, _type _z, _type _w)
             {
-                _gl_a[0] = x = _x;
-                _gl_a[1] = y = _y;
-                _gl_a[2] = z = _z;
-                _gl_a[3] = w = _w;
+                _gl_a[0] = _x;
+                _gl_a[1] = _y;
+                _gl_a[2] = _z;
+                _gl_a[3] = _w;
             }
 
             vec4(vec3<_type> v, _type w)
             {
-                _gl_a[0] = x = v.x;
-                _gl_a[1] = y = v.y;
-                _gl_a[2] = z = v.z;
-                _gl_a[3] = w = w;
+                _gl_a[0] = v[0];
+                _gl_a[1] = v[1];
+                _gl_a[2] = v[2];
+                _gl_a[3] = w;
             }
 
             inline vec4<_type> operator=(vec3<_type> &v)
             {
-                _gl_a[0] = x = v.x;
-                _gl_a[1] = y = v.y;
-                _gl_a[2] = z = v.z;
-                _gl_a[3] = w = 0;
+                _gl_a[0] = v[0];
+                _gl_a[1] = v[1];
+                _gl_a[2] = v[2];
+                _gl_a[3] = 0;
             }
 
             inline vec4<_type> operator+(_type other)        { return vec4<_type>(x + other,   y + other,   z + other,   w + other); }
@@ -62,13 +60,15 @@ namespace math
             inline vec4<_type> operator*(vec4<_type> &other) { return vec4<_type>(x * other.x, y * other.y, z * other.z, w + other.w); }
             inline vec4<_type> operator/(vec4<_type> &other) { return vec4<_type>(x / other.x, y / other.y, z / other.z, w + other.w); }
 
-            inline _type &operator[](unsigned int i)
+            inline _type operator[](int i)
             {
-                return _gl_a[i];
-            }
+                if(i < 0 || i >= 4)
+                    return 0;
 
-            inline _type const &operator[](unsigned int i) const
-            {
+                _gl_a[0] = x;
+                _gl_a[1] = y;
+                _gl_a[2] = z;
+                _gl_a[3] = w;
                 return _gl_a[i];
             }
 

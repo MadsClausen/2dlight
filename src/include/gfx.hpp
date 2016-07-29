@@ -6,16 +6,25 @@
 
 #include <math/math.hpp>
 
+#include "scene.hpp"
+
 namespace gfx
 {
-	struct game_window_t
+	class game_window_t
 	{
-		SDL_Window *sdl_window;
-		SDL_GLContext sdl_context;
-		int w, h;
-		char fullscreen;
-		char *title;
-		Uint32 sdl_flags;
+		public:
+			SDL_Window *sdl_window;
+			SDL_GLContext sdl_context;
+			int w, h;
+			char fullscreen;
+			char *title;
+			Uint32 sdl_flags;
+
+			game_window_t();
+			~game_window_t();
+
+			// return -1 if not good
+			char put_scene(scene_t *s);
 	};
 
 	int init();
