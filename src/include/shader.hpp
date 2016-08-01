@@ -71,9 +71,6 @@ namespace gfx
                 _id = glCreateProgram();
             }
 
-            unsigned int add_uniform(const char *name);
-
-
             /***********************************************************
              * Compile the shader from source code located in files.
              ***********************************************************/

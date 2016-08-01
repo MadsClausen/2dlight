@@ -12,6 +12,8 @@ texture_t::texture_t(const char *path)
 		printf("shit\n");
 	}
 
+	printf("(w, h): (%u, %u)\n", _w, _h);
+
 	glGenTextures(1, &_id);
 	glBindTexture(GL_TEXTURE_2D, _id);
 

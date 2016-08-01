@@ -13,6 +13,7 @@
 #define MAT4_INCLUDED
 
 #define DEGTORAD 3.14159265359 / 180
+#define PI          3.14159265359
 
 #include "math/vec3.hpp"
 #include "math/vec4.hpp"
@@ -82,6 +83,14 @@ namespace math
                 _mat[1] = other[1]; _mat[5] = other[4];   _mat[9]  = other[7]; _mat[13] = 0;
                 _mat[2] = other[2]; _mat[6] = other[5];   _mat[10] = other[9]; _mat[14] = 0;
                 _mat[3] = 0;        _mat[7] = 0;          _mat[11] = 0;        _mat[15] = 0;
+            }
+
+            mat4(const mat4<_type> &other)
+            {
+                _mat[0] = other[0]; _mat[4] = other[4];   _mat[8]  = other[8];  _mat[12] = other[12];
+                _mat[1] = other[1]; _mat[5] = other[5];   _mat[9]  = other[9];  _mat[13] = other[13];
+                _mat[2] = other[2]; _mat[6] = other[6];   _mat[10] = other[10]; _mat[14] = other[14];
+                _mat[3] = other[3]; _mat[7] = other[7];   _mat[11] = other[11]; _mat[15] = other[15];
             }
 
             inline _type &operator[](unsigned int i)
@@ -182,32 +191,42 @@ namespace math
 
             inline mat4<_type> operator*(mat4<_type> other)
             {
+                //*
                 vec4<_type> row1, row2, row3, row4;
                 row1.x = vec4<_type>(_mat[0], _mat[4], _mat[8],  _mat[12]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
                 row2.x = vec4<_type>(_mat[1], _mat[5], _mat[9],  _mat[13]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
-                row3.x = vec4<_type>(_mat[3], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
-                row4.x = vec4<_type>(_mat[4], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
+                row3.x = vec4<_type>(_mat[2], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
+                row4.x = vec4<_type>(_mat[3], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[0], other[1], other[2], other[3]));
 
                 row1.y = vec4<_type>(_mat[0], _mat[4], _mat[8],  _mat[12]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
                 row2.y = vec4<_type>(_mat[1], _mat[5], _mat[9],  _mat[13]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
-                row3.y = vec4<_type>(_mat[3], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
-                row4.y = vec4<_type>(_mat[4], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
+                row3.y = vec4<_type>(_mat[2], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
+                row4.y = vec4<_type>(_mat[3], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[4], other[5], other[6], other[7]));
 
                 row1.z = vec4<_type>(_mat[0], _mat[4], _mat[8],  _mat[12]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
                 row2.z = vec4<_type>(_mat[1], _mat[5], _mat[9],  _mat[13]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
-                row3.z = vec4<_type>(_mat[3], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
-                row4.z = vec4<_type>(_mat[4], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
+                row3.z = vec4<_type>(_mat[2], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
+                row4.z = vec4<_type>(_mat[3], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[8], other[9], other[10], other[11]));
 
                 row1.w = vec4<_type>(_mat[0], _mat[4], _mat[8],  _mat[12]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
                 row2.w = vec4<_type>(_mat[1], _mat[5], _mat[9],  _mat[13]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
-                row3.w = vec4<_type>(_mat[3], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
-                row4.w = vec4<_type>(_mat[4], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
+                row3.w = vec4<_type>(_mat[2], _mat[6], _mat[10], _mat[14]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
+                row4.w = vec4<_type>(_mat[3], _mat[7], _mat[11], _mat[15]).dot(vec4<_type>(other[12], other[13], other[14], other[15]));
 
 
                 return mat4<_type>(row1.x, row1.y, row1.z, row1.w,
                                    row2.x, row2.y, row2.z, row2.w,
                                    row3.x, row3.y, row3.z, row3.w,
                                    row4.x, row4.y, row4.z, row4.w);
+                /*/
+
+                /*
+                return mat4<_type>(
+                    _mat[0] * o[0] + _mat[4] * o[1] + _mat[8] * o[2] + _mat[12] * o[3],  _mat[0] * o[4] + _mat[4] * o[5] + _mat[8] * o[6] + _mat[12] * o[7],  _mat[0] * o[8] + _mat[4] * o[9] + _mat[8] * o[10] + _mat[12] * o[11],  _mat[0] * o[12] + _mat[4] * o[13] + _mat[8] * o[14] + _mat[12] * o[15],
+                    _mat[1] * o[0] + _mat[5] * o[1] + _mat[9] * o[2] + _mat[13] * o[3],  _mat[1] * o[4] + _mat[5] * o[5] + _mat[9] * o[6] + _mat[13] * o[7],  _mat[1] * o[8] + _mat[5] * o[9] + _mat[9] * o[10] + _mat[13] * o[11],  _mat[1] * o[12] + _mat[5] * o[13] + _mat[9] * o[14] + _mat[13] * o[15],
+                    _mat[2] * o[0] + _mat[6] * o[1] + _mat[10] * o[2] + _mat[14] * o[3], _mat[2] * o[4] + _mat[6] * o[5] + _mat[10] * o[6] + _mat[14] * o[7], _mat[2] * o[8] + _mat[6] * o[9] + _mat[10] * o[10] + _mat[14] * o[11], _mat[2] * o[12] + _mat[6] * o[13] + _mat[10] * o[14] + _mat[14] * o[15],
+                    _mat[3] * o[0] + _mat[7] * o[1] + _mat[11] * o[2] + _mat[15] * o[3], _mat[3] * o[4] + _mat[7] * o[5] + _mat[11] * o[6] + _mat[15] * o[7], _mat[3] * o[8] + _mat[7] * o[9] + _mat[11] * o[10] + _mat[15] * o[11], _mat[3] * o[12] + _mat[7] * o[13] + _mat[11] * o[14] + _mat[15] * o[15]);
+                /*/
             }
 
             inline mat4<_type> operator/(mat4<_type> other)
@@ -278,6 +297,7 @@ namespace math
      * @return The view matrix.
      *************************************************/
     mat4<float> look_at(vec3<float> pos, vec3<float> dir);
+    mat4<float> look_to(vec3<float> pos, vec3<float> dir);
 
     void print_mat4f(mat4f mat);
 };

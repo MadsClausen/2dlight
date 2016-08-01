@@ -11,6 +11,8 @@ HEADERS = \
 ./src/include/mesh.hpp \
 ./src/include/scene.hpp \
 ./src/include/light.hpp \
+./src/include/camera.hpp \
+./src/include/texture.hpp \
 ./src/include/math/math.hpp \
 ./src/include/math/vec2.hpp \
 ./src/include/math/vec3.hpp \
@@ -31,6 +33,7 @@ OBJS 	= \
 ./obj/scene.o \
 ./obj/light.o \
 ./obj/texture.o \
+./obj/camera.o \
 ./obj/mat3.o \
 ./obj/mat4.o \
 ./obj/poly2d.o \
@@ -67,6 +70,9 @@ obj/light.o: src/light.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/texture.o: src/texture.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/camera.o: src/camera.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/mat3.o: src/math/mat3.cpp $(HEADERS)

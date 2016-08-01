@@ -39,6 +39,12 @@ namespace gfx
 		SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 8);
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+		//glEnable(GL_DEPTH_TEST);
+		
+		//glDepthFunc(GL_LESS);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);  
+
 		glewExperimental = GL_TRUE;
 		if(glewInit() != GLEW_OK)
 		{

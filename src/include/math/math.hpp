@@ -9,6 +9,7 @@
 #include "math/mat4.hpp"
 #include "math/poly2d.hpp"
 
-#define DEGTORAD 3.14159265359 / 180
+#define DEGTORAD 	3.14159265359 / 180
+#define PI			3.14159265359
 
 #endif
