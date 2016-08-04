@@ -87,6 +87,12 @@ namespace gfx
         }
 
         compiled = 1;
+
+        // add uniform locations
+        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
+        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
+        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
+
         return 0;
     }
 
@@ -146,6 +152,13 @@ namespace gfx
         }
 
         compiled = 1;
+
+        // add uniform locations
+        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
+        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
+        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
+        _uniforms[UNIFORM_CAMERA_LOCATION] = glGetUniformLocation(_id, UNIFORM_CAMERA_LOCATION_NAME);
+
         return 0;
     }
 
@@ -173,24 +186,51 @@ namespace gfx
         glShaderSource(geoShaderID, 1, &geoSourcePointer, NULL);
         glCompileShader(geoShaderID);
 
-        // Check Vertex Shader
+        // Check shader Shader
         glGetShaderiv(geoShaderID, GL_COMPILE_STATUS, &Result);
         glGetShaderiv(geoShaderID, GL_INFO_LOG_LENGTH, &infoLogLen);
         std::vector<char> geoShaderErrMsgs(infoLogLen);
         glGetShaderInfoLog(geoShaderID, infoLogLen, NULL, &geoShaderErrMsgs[0]);
         fprintf(stdout, "%s\n", &geoShaderErrMsgs[0]);
 
-        glAttachShader(_id, geoShaderID);
-
         if(geoShaderErrMsgs.size() > 1)
         {
             return -1;
         }
+
+        glAttachShader(_id, geoShaderID);
+        glLinkProgram(_id);
+
+        // Check the program
+        glGetProgramiv(_id, GL_LINK_STATUS, &Result);
+        glGetProgramiv(_id, GL_INFO_LOG_LENGTH, &infoLogLen);
+        std::vector<char> progErrMsgs(std::max(infoLogLen, int(1)));
+        glGetProgramInfoLog(_id, infoLogLen, NULL, &progErrMsgs[0]);
+        fprintf(stdout, "%s\n", &progErrMsgs[0]);
+
+        glDeleteShader(geoShaderID);
+
+        _id = _id;
+
+        if(progErrMsgs.size() > 1)
+        {
+            return -1;
+        }
+
+        compiled = 1;
+
+        // add uniform locations
+        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
+        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
+        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
+        _uniforms[UNIFORM_CAMERA_LOCATION] = glGetUniformLocation(_id, UNIFORM_CAMERA_LOCATION_NAME);
+
+
         return 0;
     }
 
-    GLuint shader_t::get_uniform_location(const char *uniformName)
+    GLuint shader_t::get_uniform_location(UNIFORM_LOCATION loc)
     {
-        return glGetUniformLocation(this->_id, uniformName);
+        return _uniforms[loc];
     }
 }

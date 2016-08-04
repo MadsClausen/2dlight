@@ -1,23 +1,32 @@
-#version 120
+#version 150
 
-attribute vec3 location;
-attribute vec2 texcoord;
-attribute vec4 color;
+in vec3 location;
+in vec2 texcoord;
+in vec4 color;
+in vec3 normal;
 
-varying vec2 texcoord_frag;
-varying vec4 frag_c;
+out vec2 texcoord_frag;
 
-uniform mat4 MVP;
-uniform mat4 view;
-uniform mat4 proj;
-uniform mat4 rot;
+out vec3 frag_c;
+out vec3 frag_normal;
+out vec3 frag_vert;
+
+uniform mat4 model_mat;
+uniform mat4 view_mat;
+uniform mat4 projection_mat;
 
 void main()
 {
-	//vec4 loc = MVP * vec4(location, 1.0);
-	//loc.w = 1.0;
-	//gl_Position = proj * view * MVP * rot * vec4(location, 1.0);
+	mat4 MVP = projection_mat * view_mat * model_mat;
 	gl_Position = MVP * vec4(location, 1.0);
+
 	texcoord_frag = texcoord;
-	frag_c = color;
+	
+	frag_c = color.xyz;
+
+	frag_vert = location;
+
+	frag_normal = normal;
+	//mat3 normal_matrix = transpose(inverse(mat3(model_mat)));
+	//frag_normal = normalize(normal_matrix * normal);
 }

@@ -34,6 +34,7 @@ OBJS 	= \
 ./obj/light.o \
 ./obj/texture.o \
 ./obj/camera.o \
+./obj/obj_parse.o \
 ./obj/mat3.o \
 ./obj/mat4.o \
 ./obj/poly2d.o \
@@ -73,6 +74,9 @@ obj/texture.o: src/texture.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/camera.o: src/camera.cpp $(HEADERS)
+	$(CC) $(CFLAGS) $< -o $@
+
+obj/obj_parse.o: src/obj_parse.cpp $(HEADERS)
 	$(CC) $(CFLAGS) $< -o $@
 
 obj/mat3.o: src/math/mat3.cpp $(HEADERS)

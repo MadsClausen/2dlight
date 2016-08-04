@@ -18,17 +18,25 @@
 
 #include <GL/glew.h>
 
+#define UNIFORM_MODEL_MATRIX_NAME       "model_mat"
+#define UNIFORM_VIEW_MATRIX_NAME        "view_mat"
+#define UNIFORM_PROJECTION_MATRIX_NAME  "projection_mat"
+#define UNIFORM_CAMERA_LOCATION_NAME    "camera_location"
+
 namespace gfx
 {
+    enum UNIFORM_LOCATION
+    {
+        UNIFORM_MODEL_MATRIX,
+        UNIFORM_VIEW_MATRIX,
+        UNIFORM_PROJECTION_MATRIX,
+        UNIFORM_CAMERA_LOCATION,
+
+        NUM_UNIFORMS
+    };
+
     class shader_t
     {
-        enum
-        {
-            UNIFORM_MVP,
-
-            NUM_UNIFORMS
-        };
-
         private:
             char *_vsPath, *_fsPath, *_gsPath, compiled;
             GLuint _id, _uniforms[NUM_UNIFORMS];
@@ -42,6 +50,9 @@ namespace gfx
                 _vsPath = (char*) "";
                 _fsPath = (char*) "";
                 _id = compiled = 0;
+
+                for(int i = 0; i < NUM_UNIFORMS; i++)
+                    _uniforms[i] = 0;
 
                 prepare();
             }
@@ -57,6 +68,9 @@ namespace gfx
                 _vsPath = (char *) v;
                 _fsPath = (char *) f;
                 _id = compiled = 0;
+
+                for(int i = 0; i < NUM_UNIFORMS; i++)
+                    _uniforms[i] = 0;
 
                 prepare();
             }
@@ -120,7 +134,7 @@ namespace gfx
                 return (const GLuint) _id;
             }
 
-            GLuint get_uniform_location(const char *uniformName);
+            GLuint get_uniform_location(UNIFORM_LOCATION loc);
 
 
             /*********************

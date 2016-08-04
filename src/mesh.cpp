@@ -1,8 +1,10 @@
 #include "mesh.hpp"
 
+#include <stdlib.h>
+
 namespace gfx
 {
-	mesh_t::mesh_t(unsigned int nverts, vertex_t *vertices)
+	void mesh_t::create_mesh(unsigned int nverts, vertex_t *vertices)
 	{
 		_vertices = vertices;
 		_num_vertices = nverts;
@@ -13,16 +15,15 @@ namespace gfx
 		std::vector<math::vec3f> locations;
 		std::vector<math::vec2f> texcoords;
 		std::vector<math::vec4f> colors;
+		std::vector<math::vec3f> normals;
 
 		for(unsigned int i = 0; i < nverts; i++)
 		{
 			locations.push_back(vertices[i].location);
 			texcoords.push_back(vertices[i].texcoord);
 			colors.push_back(vertices[i].color);
-
-			printf("color = (%f, %f, %f, %f)\n", vertices[i].color.x, vertices[i].color.y, vertices[i].color.z, vertices[i].color.w);
+			normals.push_back(vertices[i].normal);
 		}
-
 
 		glGenBuffers(NUM_BUFFERS, _vbo);
 
@@ -43,12 +44,21 @@ namespace gfx
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
+
+		glBindBuffer(GL_ARRAY_BUFFER, _vbo[NORMAL_VBO]);
+		glBufferData(GL_ARRAY_BUFFER, _num_vertices * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
 		glBindVertexArray(0);
-
-
 	}
 
-	mesh_t::~mesh_t() {}
+	mesh_t::mesh_t(unsigned int nverts, vertex_t *vertices)
+	{
+		this->create_mesh(nverts, vertices);
+	}
+
+	mesh_t::~mesh_t() { free(_vertices); }
 
 	void mesh_t::render()
 	{
@@ -56,7 +66,11 @@ namespace gfx
 
 		_texture->bind(0);
 		_shader->bind();
+
+
+		//printf("bound shader\n");
 		glDrawArrays(GL_TRIANGLES, 0, _num_vertices);
+		//printf("drew arrays\n");
 
 		glBindVertexArray(0);
 	}
@@ -67,15 +81,22 @@ namespace gfx
         glBindAttribLocation(_shader->get_id(), 0, "location");
         glBindAttribLocation(_shader->get_id(), 1, "texcoord");
         glBindAttribLocation(_shader->get_id(), 2, "color");
+        glBindAttribLocation(_shader->get_id(), 3, "normal");
 
-        _shader->bind();
-        _uniforms[UNIFORM_MVP] = _shader->get_uniform_location("MVP");
+        _model_matrix_loc = _shader->get_uniform_location(UNIFORM_MODEL_MATRIX);
 	}
 
 	void mesh_t::update()
 	{
 		_shader->bind();
-		glUniformMatrix4fv(_uniforms[UNIFORM_MVP], 1, GL_FALSE, &_transform->matrix[0]);
+		glUniformMatrix4fv(_model_matrix_loc, 1, GL_FALSE, &_transform->matrix[0]);
+	}
+
+	char mesh_t::load_obj(const char *path)
+	{
+		unsigned int nverts;
+		util::parse_obj(path, &nverts, _vertices);
+		this->create_mesh(nverts, _vertices);
 	}
 
 	////////////////////////////////////////////////
