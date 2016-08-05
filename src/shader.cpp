@@ -89,9 +89,7 @@ namespace gfx
         compiled = 1;
 
         // add uniform locations
-        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
-        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
-        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
+        this->set_uniforms();
 
         return 0;
     }
@@ -154,10 +152,7 @@ namespace gfx
         compiled = 1;
 
         // add uniform locations
-        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
-        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
-        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
-        _uniforms[UNIFORM_CAMERA_LOCATION] = glGetUniformLocation(_id, UNIFORM_CAMERA_LOCATION_NAME);
+        this->set_uniforms();
 
         return 0;
     }
@@ -220,17 +215,30 @@ namespace gfx
         compiled = 1;
 
         // add uniform locations
-        _uniforms[UNIFORM_MODEL_MATRIX] = glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
-        _uniforms[UNIFORM_VIEW_MATRIX] = glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
-        _uniforms[UNIFORM_PROJECTION_MATRIX] = glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
-        _uniforms[UNIFORM_CAMERA_LOCATION] = glGetUniformLocation(_id, UNIFORM_CAMERA_LOCATION_NAME);
-
+        this->set_uniforms();
 
         return 0;
+    }
+
+    void shader_t::set_uniforms()
+    {
+        if(compiled == 0)  return;
+        _uniforms[UNIFORM_MODEL_MATRIX] =       glGetUniformLocation(_id, UNIFORM_MODEL_MATRIX_NAME);
+        _uniforms[UNIFORM_VIEW_MATRIX] =        glGetUniformLocation(_id, UNIFORM_VIEW_MATRIX_NAME);
+        _uniforms[UNIFORM_PROJECTION_MATRIX] =  glGetUniformLocation(_id, UNIFORM_PROJECTION_MATRIX_NAME);
+        _uniforms[UNIFORM_CAMERA_LOCATION] =    glGetUniformLocation(_id, UNIFORM_CAMERA_LOCATION_NAME);
+        _uniforms[UNIFORM_NUM_LIGHTS] =         glGetUniformLocation(_id, UNIFORM_NUM_LIGHTS_NAME);
+
+        _uniform_blocks[UNIFORM_BLOCK_LIGHTS] = glGetUniformBlockIndex(_id, UNIFORM_BLOCK_LIGHTS_NAME);
     }
 
     GLuint shader_t::get_uniform_location(UNIFORM_LOCATION loc)
     {
         return _uniforms[loc];
+    }
+
+    GLuint shader_t::get_uniform_block_index(UNIFORM_BLOCK_INDEX loc)
+    {
+        return _uniform_blocks[loc];
     }
 }

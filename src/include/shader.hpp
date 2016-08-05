@@ -22,6 +22,9 @@
 #define UNIFORM_VIEW_MATRIX_NAME        "view_mat"
 #define UNIFORM_PROJECTION_MATRIX_NAME  "projection_mat"
 #define UNIFORM_CAMERA_LOCATION_NAME    "camera_location"
+#define UNIFORM_NUM_LIGHTS_NAME         "num_lights"
+
+#define UNIFORM_BLOCK_LIGHTS_NAME       "light_block"
 
 namespace gfx
 {
@@ -31,15 +34,23 @@ namespace gfx
         UNIFORM_VIEW_MATRIX,
         UNIFORM_PROJECTION_MATRIX,
         UNIFORM_CAMERA_LOCATION,
+        UNIFORM_NUM_LIGHTS,
 
         NUM_UNIFORMS
+    };
+
+    enum UNIFORM_BLOCK_INDEX
+    {
+        UNIFORM_BLOCK_LIGHTS,
+
+        NUM_UNIFORM_BLOCKS
     };
 
     class shader_t
     {
         private:
             char *_vsPath, *_fsPath, *_gsPath, compiled;
-            GLuint _id, _uniforms[NUM_UNIFORMS];
+            GLuint _id, _uniforms[NUM_UNIFORMS], _uniform_blocks[NUM_UNIFORM_BLOCKS];
 
         public:
             /************************
@@ -84,6 +95,8 @@ namespace gfx
             {
                 _id = glCreateProgram();
             }
+
+            void set_uniforms();
 
             /***********************************************************
              * Compile the shader from source code located in files.
@@ -135,6 +148,7 @@ namespace gfx
             }
 
             GLuint get_uniform_location(UNIFORM_LOCATION loc);
+            GLuint get_uniform_block_index(UNIFORM_BLOCK_INDEX loc);
 
 
             /*********************
