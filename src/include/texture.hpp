@@ -12,10 +12,12 @@ class texture_t
 		int _w, _h;
 
 	public:
+		texture_t() {};
 		texture_t(const char *path);
 		~texture_t();
 
 		void bind(unsigned int unit);
+		void load(const char *path);
 };
 
 #endif

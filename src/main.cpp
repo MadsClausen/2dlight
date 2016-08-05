@@ -38,104 +38,33 @@ int main(void)
 	gwin.title = (char *) "3D Lighting";
 	create_window(&gwin);
 
-	/*
+	//*
 	vertex_t vertices[] = {	
-        vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f, 1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f,-1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f, 1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f,-1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f,-1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f,-1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f, 1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f,-1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f, 1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f, 1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f,-1.0f, 1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f,-1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(1.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f,-1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f, 1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f,-1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 1.0f, 0.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f, 1.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f,-1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 0.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(-1.0f, 1.0f, 1.0f), 	math::vec2f(1.0f, 1.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f)),
-	    vertex_t(math::vec3f(1.0f,-1.0f, 1.0f), 	math::vec2f(0.0f, 1.0f),	math::vec4f(0.0f, 0.0f, 1.0f, 1.0f), math::vec3f(0.0f, 0.0f, 0.0f))};
+        vertex_t(math::vec3f(-10.0f,-1.0f,-10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	    vertex_t(math::vec3f(-10.0f,-1.0f, 10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	    vertex_t(math::vec3f(10.0f,-1.0f, -10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	    vertex_t(math::vec3f(10.0f, -1.0f,-10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	    vertex_t(math::vec3f(-10.0f,-1.0f,10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	    vertex_t(math::vec3f(10.0f, -1.0f,10.0f), 	math::vec2f(0.0f, 0.0f),	math::vec4f(1.0f, 1.0f, 1.0f, 1.0f), math::vec3f(0.0f, 1.0f, 0.0f)),
+	   };
 
-	mesh_t mesh(36, vertices);
-	/*/
+	mesh_t floor(36, vertices);
+
 
 	mesh_t mesh;
 	mesh.load_obj("model.obj");
 
-	/*
-	vertex_t vertices[] = {	vertex_t(math::vec3f(-0.5f, 0.5f, 	0.5f), 	math::vec2f(0.0f, 0.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	0.5f), 	math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f,	-0.5f, 	0.5f), 	math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, -0.5f, 	0.5f), 	math::vec2f(1.0f, 1.0f), math::vec4f(1.0f, 0.0f, 0.0f, 1.0f)),
-
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	-0.5f), math::vec2f(0.0f, 0.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	-0.5f), math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	-0.5f), math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f,	-0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, -0.5f, 	-0.5f), math::vec2f(1.0f, 1.0f), math::vec4f(0.0f, 1.0f, 0.0f, 1.0f)),
-
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	0.5f), 	math::vec2f(0.0f, 0.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f,	0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	-0.5f), math::vec2f(1.0f, 1.0f), math::vec4f(0.0f, 0.0f, 1.0f, 1.0f)),
-
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	0.5f), 	math::vec2f(0.0f, 0.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	-0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	-0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f,	-0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	-0.5f, 	-0.5f), math::vec2f(1.0f, 1.0f), math::vec4f(1.0f, 0.0f, 1.0f, 1.0f)),
-
-							vertex_t(math::vec3f(0.5f, -0.5f, 	0.5f), 	math::vec2f(0.0f, 0.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, -0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f,	-0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-							vertex_t(math::vec3f(0.5f, 	0.5f, 	-0.5f), math::vec2f(1.0f, 1.0f), math::vec4f(1.0f, 1.0f, 0.0f, 1.0f)),
-
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	0.5f), 	math::vec2f(0.0f, 0.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, -0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	0.5f), 	math::vec2f(1.0f, 0.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f,	-0.5f, 	-0.5f), math::vec2f(0.0f, 1.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-							vertex_t(math::vec3f(-0.5f, 0.5f, 	-0.5f), math::vec2f(1.0f, 1.0f), math::vec4f(0.0f, 1.0f, 1.0f, 1.0f)),
-						};
-	
-	mesh_t mesh(6*6, vertices);
-	/*/
-
 	shader_t shader("shaders/simple.vs", "shaders/simple.fs");
 	shader.compile();
 	mesh.set_shader(&shader);
+	floor.set_shader(&shader);
+	//floor.update(); // not dynamic object
 
 	transform_t trans;
 	mesh.set_transform(&trans);
+
+	transform_t trans_floor;
+	//floor.set_transform(&trans_floor);
 
 	gfx::camera_t cam(math::vec3f(0.0f, 0.0f, 15.0f), math::vec3f(0.0f, 0.0f, -1.0f), 75.0f, 8.0f/6.0f, 0.5f, 30.0f);
 	cam.add_shader(&shader);
@@ -162,7 +91,6 @@ int main(void)
 			}
 		}
 
-		//printf("in loop\n");
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		if(translate >= 7.0f  && d_translate > 0) d_translate = -d_translate;
@@ -170,13 +98,12 @@ int main(void)
 
 		trans.rotate = math::vec3f(0.0f, _rotate += d_scale, 0);
 		trans.update_matrix();
-		//printf("updated matrix\n");
 
 		mesh.update();
-		//printf("updated mesh\n");
-
 		mesh.render();
-		//printf("rendered mesh\n");
+
+		floor.update();
+		floor.render();
 
 		flip(&gwin);
 	}

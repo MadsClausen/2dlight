@@ -81,6 +81,10 @@ namespace gfx
 			GLuint _vao, _vbo[NUM_BUFFERS], _model_matrix_loc; // vertexbufferobject and vertexarrayobject
 			unsigned int _drawcount;
 
+			// default values so you don't have to specify a transform matrix if the object has no transformation etc.
+			static transform_t _no_transform;
+			static texture_t _no_texture;
+
 		public:
 			////////////////
 
@@ -90,6 +94,9 @@ namespace gfx
 			{
 				_vertices = (vertex_t *) 0;
 				_num_vertices = 0;
+
+				_texture = &_no_texture;
+				_transform = &_no_transform;
 			}
 			mesh_t(unsigned int nverts, vertex_t *vertices);
 			~mesh_t();

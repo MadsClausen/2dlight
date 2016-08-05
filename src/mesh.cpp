@@ -4,6 +4,9 @@
 
 namespace gfx
 {
+	transform_t mesh_t::_no_transform = transform_t();
+	texture_t mesh_t::_no_texture = texture_t();
+
 	void mesh_t::create_mesh(unsigned int nverts, vertex_t *vertices)
 	{
 		_vertices = vertices;
@@ -56,6 +59,9 @@ namespace gfx
 	mesh_t::mesh_t(unsigned int nverts, vertex_t *vertices)
 	{
 		this->create_mesh(nverts, vertices);
+
+		_transform = &_no_transform;
+		_texture = &_no_texture;
 	}
 
 	mesh_t::~mesh_t() { free(_vertices); }
@@ -65,8 +71,8 @@ namespace gfx
 		glBindVertexArray(_vao);
 
 		_texture->bind(0);
-		_shader->bind();
-
+		_shader->bind();	
+		glUniformMatrix4fv(_model_matrix_loc, 1, GL_FALSE, &_transform->matrix[0]);
 
 		//printf("bound shader\n");
 		glDrawArrays(GL_TRIANGLES, 0, _num_vertices);
@@ -89,7 +95,6 @@ namespace gfx
 	void mesh_t::update()
 	{
 		_shader->bind();
-		glUniformMatrix4fv(_model_matrix_loc, 1, GL_FALSE, &_transform->matrix[0]);
 	}
 
 	char mesh_t::load_obj(const char *path)

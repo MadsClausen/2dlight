@@ -2,6 +2,22 @@
 
 texture_t::texture_t(const char *path)
 {
+	this->load(path);
+}
+
+texture_t::~texture_t()
+{
+	glDeleteTextures(1, &_id);
+}
+
+void texture_t::bind(unsigned int unit)
+{
+	glActiveTexture(unit);
+	glBindTexture(GL_TEXTURE_2D, _id);
+}
+
+void texture_t::load(const char *path)
+{
 	_w = _h = 0;
 
 	int num_components;
@@ -25,15 +41,4 @@ texture_t::texture_t(const char *path)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _w, _h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
 	stbi_image_free(data);
-}
-
-texture_t::~texture_t()
-{
-	glDeleteTextures(1, &_id);
-}
-
-void texture_t::bind(unsigned int unit)
-{
-	glActiveTexture(unit);
-	glBindTexture(GL_TEXTURE_2D, _id);
 }
